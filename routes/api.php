@@ -1,6 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Purchase\BuyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,7 +15,20 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::group(['middleware' => 'jwt.guard'], function () {
+    Route::post('products/{productId}/buy', [BuyController::class, 'store']);
+    Route::apiResource('purchases', BuyController::class)
+        ->only('index', 'show');
+});
+Route::apiResource('products', ProductController::class)
+    ->only(['index', 'show']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
+    Route::group(['middleware' => 'jwt.guard'], function () {
+        Route::get('me', [AuthController::class, 'me']);
+        Route::post('refresh', [AuthController::class, 'refresh']);
+        Route::get('logout', [AuthController::class, 'logout']);
+    });
 });
