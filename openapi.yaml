@@ -1,0 +1,454 @@
+openapi: 3.0.0
+info:
+  title: 'Rent API'
+  version: '1.0'
+servers:
+  -
+    url: 'http://127.0.0.1:8000'
+paths:
+  /api/auth/login:
+    post:
+      summary: 'Login endpoint'
+      description: 'Login endpoint'
+      operationId: 535ffeda4b78916efd658b2844ea897a
+      requestBody:
+        $ref: '#/components/requestBodies/LoginRequest'
+      responses:
+        '200':
+          description: 'Login endpoint'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TokenResource'
+        '422':
+          description: 'Invalid data'
+        '500':
+          description: 'Server error'
+  /api/auth/register:
+    post:
+      summary: 'Register endpoint'
+      description: 'Register endpoint'
+      operationId: da8643013c2941f5ed7f8a9c9b4a7f7a
+      requestBody:
+        $ref: '#/components/requestBodies/RegisterRequest'
+      responses:
+        '200':
+          description: 'Register endpoint'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TokenResource'
+        '422':
+          description: 'Invalid data'
+        '500':
+          description: 'Server error'
+  /api/auth/me:
+    get:
+      summary: 'Me resource'
+      description: 'Me resource'
+      operationId: 1537d2a532022d0974e4cd2d83c6a38f
+      responses:
+        '200':
+          description: 'Me resource'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResource'
+        '500':
+          description: 'Server error'
+  /api/auth/logout:
+    get:
+      summary: Logout
+      description: Logout
+      operationId: 8e5dc3654b57a13f0272f04962926281
+      responses:
+        '200':
+          description: 'Logged out'
+        '500':
+          description: 'Server error'
+  /api/auth/refresh:
+    post:
+      summary: 'Refresh token'
+      description: 'Refresh token'
+      operationId: f3538b6e9c46bcf601a9d194288b03d4
+      requestBody:
+        $ref: '#/components/requestBodies/RefreshTokenRequest'
+      responses:
+        '200':
+          description: 'Refresh token'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TokenResource'
+        '422':
+          description: 'Invalid data'
+        '500':
+          description: 'Server error'
+  /api/auth/test_deposit:
+    get:
+      summary: 'Add 10000 to your balance'
+      description: 'Add 10000 to your balance'
+      operationId: 30761dafbfe7b1db2c1094a3ab4854bd
+      responses:
+        '200':
+          description: ok
+        '500':
+          description: 'Server error'
+  /api/products:
+    get:
+      summary: 'Products list'
+      description: 'Products list'
+      operationId: 5afdc398c410dcbc922743e99c89272b
+      requestBody:
+        $ref: '#/components/requestBodies/ProductIndexRequest'
+      responses:
+        '200':
+          description: 'Products list'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductResource'
+        '404':
+          description: 'Not found'
+        '422':
+          description: 'Invalid data'
+        '500':
+          description: 'Server error'
+  /api/purchases:
+    get:
+      summary: 'purchases get list'
+      description: 'purchases get list'
+      operationId: db87144f9f806ab44f23fb8d8619f0b0
+      requestBody:
+        $ref: '#/components/requestBodies/PurchaseIndexRequest'
+      responses:
+        '200':
+          description: 'purchases get list'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PurchaseResource'
+        '404':
+          description: 'Not found'
+        '422':
+          description: 'Invalid data'
+        '500':
+          description: 'Server error'
+  '/api/{productId}/buy':
+    post:
+      summary: 'Buy product'
+      description: 'Buy product'
+      operationId: 584246c1d33aab4ade5cb4db3e668263
+      requestBody:
+        $ref: '#/components/requestBodies/BuyRequest'
+      responses:
+        '200':
+          description: 'Buy product'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PurchaseResource'
+        '404':
+          description: 'Not found'
+        '422':
+          description: 'Invalid data'
+        '500':
+          description: 'Server error'
+  /api/rent:
+    get:
+      summary: 'Rent get list'
+      description: 'Rent get list'
+      operationId: e372a2c0f44b5310e2a780c357d70015
+      requestBody:
+        $ref: '#/components/requestBodies/RentIndexRequest'
+      responses:
+        '200':
+          description: 'Rent get list'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RentResource'
+        '404':
+          description: 'Not found'
+        '422':
+          description: 'Invalid data'
+        '500':
+          description: 'Server error'
+  '/api/{productId}/rent':
+    post:
+      summary: 'Rent product'
+      description: 'Rent product'
+      operationId: 5b05e82e466bf9e4753cbf168e2db9e0
+      requestBody:
+        $ref: '#/components/requestBodies/RentRequest'
+      responses:
+        '200':
+          description: 'Rent product'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RentResource'
+        '404':
+          description: 'Not found'
+        '422':
+          description: 'Invalid data'
+        '500':
+          description: 'Server error'
+  '/api/rent/{rentId}':
+    put:
+      summary: 'Extend the rent'
+      description: 'Extend the rent'
+      operationId: 9770cb7ed0f03abf41b081394ae9e02b
+      requestBody:
+        $ref: '#/components/requestBodies/RentRequest'
+      responses:
+        '200':
+          description: 'Extend the rent'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RentResource'
+        '404':
+          description: 'Not found'
+        '422':
+          description: 'Invalid data'
+        '500':
+          description: 'Server error'
+components:
+  schemas:
+    TokenResource:
+      title: 'Token resource'
+      description: 'Token resource'
+      properties:
+        access_token:
+          description: 'Access token'
+          format: string
+        expired_at:
+          description: 'Expired at'
+          format: datetime
+        refresh_token:
+          description: 'Refresh token'
+          format: string
+      type: object
+      xml:
+        name: 'Token resource'
+    ProductResource:
+      title: 'Product resource'
+      description: 'Product resource'
+      properties:
+        id:
+          format: integer
+        name:
+          format: string
+        buy_price:
+          format: number
+        rent_hour_price:
+          format: number
+        quantity:
+          format: integer
+      type: object
+      xml:
+        name: 'Product resource'
+    ProductUserResource:
+      title: 'Purchase resource'
+      description: 'Purchase resource'
+      properties:
+        id:
+          format: integer
+        name:
+          format: string
+        buy_price:
+          format: number
+      type: object
+      xml:
+        name: 'Purchase resource'
+    PurchaseResource:
+      title: 'Purchase resource'
+      description: 'Purchase resource'
+      properties:
+        id:
+          format: integer
+        product:
+          $ref: '#/components/schemas/ProductUserResource'
+      type: object
+      xml:
+        name: 'Purchase resource'
+    RentResource:
+      title: 'Rent resource'
+      description: 'Rent resource'
+      properties:
+        id:
+          format: integer
+        product:
+          $ref: '#/components/schemas/ProductUserResource'
+        start_rent:
+          format: string
+        end_rent:
+          format: string
+        is_expired:
+          format: boolean
+      type: object
+      xml:
+        name: 'Rent resource'
+    UserResource:
+      title: 'User resource'
+      description: 'User resource'
+      properties:
+        id:
+          format: integer
+        name:
+          format: string
+        email:
+          format: string
+        balance:
+          format: number
+        created_at:
+          format: string
+        updated_at:
+          format: string
+      type: object
+      xml:
+        name: 'User resource'
+  requestBodies:
+    LoginRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              email:
+                description: 'Class AdminLoginRequest'
+                type: string
+              password:
+                type: string
+            type: object
+    RefreshTokenRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              refresh_token:
+                description: 'Class RefreshTokenRequest'
+                type: string
+            type: object
+    RegisterRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+              password_confirmation:
+                type: string
+            type: object
+    BaseRequest:
+      description: 'Class BaseRequest'
+      required: true
+    PaginateRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              page:
+                description: 'Class PaginateRequest'
+                type: integer
+              limit:
+                type: integer
+            type: object
+    ProductIndexRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              page:
+                description: 'Class ProductIndexRequest'
+                type: integer
+              limit:
+                type: integer
+            type: object
+    BuyRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              product_id:
+                description: 'Product id'
+                type: integer
+            type: object
+    PurchaseIndexRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              page:
+                type: integer
+              limit:
+                type: integer
+            type: object
+    RentExtendRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              rent_id:
+                description: 'Your rent uuid'
+                type: string
+              rent_hours:
+                description: 'Available values - 4,8,12'
+                type: integer
+            type: object
+    RentIndexRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              page:
+                type: integer
+              limit:
+                type: integer
+            type: object
+    RentRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              product_id:
+                description: 'Product id'
+                type: integer
+              rent_hours:
+                description: 'Available values - 4,8,12'
+                type: integer
+            type: object

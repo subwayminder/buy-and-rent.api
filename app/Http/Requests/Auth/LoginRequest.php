@@ -16,7 +16,7 @@ use OpenApi\Annotations as OA;
  * @property-read string $password
  *
  * @OA\RequestBody (
- *     request="AdminLoginRequest",
+ *     request="LoginRequest",
  *     required=true,
  *     @OA\JsonContent (
  *         @OA\Property (

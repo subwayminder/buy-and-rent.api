@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Purchase;
 
 use App\Http\Requests\PaginateRequest;
+use Illuminate\Contracts\Validation\ValidationRule;
 use OpenApi\Annotations as OA;
 
 /**
@@ -26,7 +27,7 @@ class PurchaseIndexRequest extends PaginateRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {

@@ -6,7 +6,32 @@ use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\RequestBody (
+ *     request="RegisterRequest",
+ *     required=true,
+ *     @OA\JsonContent (
+ *         @OA\Property (
+ *             property="name",
+ *             type="string"
+ *         ),
+ *         @OA\Property (
+ *             property="email",
+ *             type="string"
+ *         ),
+ *         @OA\Property (
+ *             property="password",
+ *             type="string"
+ *         ),
+ *         @OA\Property (
+ *             property="password_confirmation",
+ *             type="string"
+ *         ),
+ *     )
+ * )
+ */
 class RegisterRequest extends FormRequest
 {
     /**

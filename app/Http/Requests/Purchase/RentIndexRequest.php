@@ -8,7 +8,7 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\RequestBody (
- *     request = "PurchaseIndexRequest",
+ *     request = "RentIndexRequest",
  *     required = true,
  *     @OA\JsonContent (
  *         @OA\Property (

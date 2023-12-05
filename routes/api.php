@@ -33,6 +33,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::group(['middleware' => 'jwt.guard'], function () {
         Route::get('me', [AuthController::class, 'me']);
+        Route::get('test_deposit', [AuthController::class, 'testDeposit']);
         Route::post('refresh', [AuthController::class, 'refresh']);
         Route::get('logout', [AuthController::class, 'logout']);
     });

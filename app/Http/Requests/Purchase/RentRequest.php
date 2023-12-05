@@ -12,11 +12,29 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
+use OpenApi\Annotations as OA;
 
 /**
  * @class BuyRequest
  * @property-read integer $product_id
  * @property-read integer $rent_hours
+ *
+ * @OA\RequestBody (
+ *     request = "RentRequest",
+ *     required = true,
+ *     @OA\JsonContent (
+ *         @OA\Property (
+ *             property="product_id",
+ *             type="integer",
+ *             description="Product id"
+ *         ),
+ *         @OA\Property (
+ *             property="rent_hours",
+ *             type="integer",
+ *             description="Available values - 4,8,12"
+ *         )
+ *     )
+ * )
  */
 class RentRequest extends FormRequest
 {

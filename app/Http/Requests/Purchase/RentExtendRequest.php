@@ -9,10 +9,28 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
+use OpenApi\Annotations as OA;
 
 /**
  * @property-read int $rent_id
  * @property-read int $rent_hours
+ *
+ * @OA\RequestBody (
+ *     request = "RentExtendRequest",
+ *     required = true,
+ *     @OA\JsonContent (
+ *         @OA\Property (
+ *             property="rent_id",
+ *             type="string",
+ *             description="Your rent uuid"
+ *         ),
+ *         @OA\Property (
+ *             property="rent_hours",
+ *             type="integer",
+ *             description="Available values - 4,8,12"
+ *         )
+ *     )
+ * )
  */
 class RentExtendRequest extends FormRequest
 {
