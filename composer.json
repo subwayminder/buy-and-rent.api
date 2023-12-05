@@ -50,6 +50,9 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "swagger": [
+            "@php vendor/zircote/swagger-php/bin/openapi app/Http --format yaml -n \"*.php\" -o ./openapi.yaml"
         ]
     },
     "extra": {
