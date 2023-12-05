@@ -4,6 +4,7 @@ namespace App\Services\Purchase;
 
 use App\Models\Product;
 use App\Models\Purchase;
+use App\Models\Rent;
 use App\Models\User;
 use App\Services\CRUDService;
 use Illuminate\Database\Eloquent\Builder;
@@ -39,6 +40,9 @@ class BuyService extends CRUDService
         $product->save();
         $user->account_balance -= $product->buy_price;
         $user->save();
+        Rent::where('product_id', $product->id)
+            ->where('user_id', $user->id)
+            ->delete();
         $purchase = new Purchase();
         $purchase->user_id = $user->id;
         $purchase->product_id = $product->id;

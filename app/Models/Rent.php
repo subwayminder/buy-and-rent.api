@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
 /**
  * App\Models\Rent
  *
- * @property string $uuid
+ * @property string $id
  * @property int $user_id
  * @property int $product_id
  * @property string $start_rent
@@ -38,6 +38,18 @@ use Illuminate\Support\Carbon;
 class Rent extends Model
 {
     use HasFactory, BelongsToProduct, BelongsToUser, HasUuids;
+
+    protected $fillable = [
+        'product_id',
+        'user_id',
+        'start_rent',
+        'end_rent'
+    ];
+
+    protected $casts = [
+        'start_rent' => 'datetime:d.m.Y H:i:s',
+        'end_rent' => 'datetime:d.m.Y H:i:s',
+    ];
 
     public function isExpired(): bool
     {

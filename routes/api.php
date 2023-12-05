@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Purchase\BuyController;
+use App\Http\Controllers\Purchase\RentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +18,12 @@ use Illuminate\Support\Facades\Route;
 */
 Route::group(['middleware' => 'jwt.guard'], function () {
     Route::post('products/{productId}/buy', [BuyController::class, 'store']);
+    Route::post('products/{productId}/rent', [RentController::class, 'store']);
+    Route::put('rent/{rentId}', [RentController::class, 'update']);
     Route::apiResource('purchases', BuyController::class)
-        ->only('index', 'show');
+        ->only('index');
+    Route::apiResource('rent', RentController::class)
+        ->only('index');
 });
 Route::apiResource('products', ProductController::class)
     ->only(['index', 'show']);

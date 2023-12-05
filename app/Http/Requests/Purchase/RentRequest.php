@@ -6,17 +6,19 @@ use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Rent;
 use App\Models\User;
-use Carbon\Carbon;
+use App\Services\Purchase\Enum\RentRangeEnum;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 /**
  * @class BuyRequest
  * @property-read integer $product_id
+ * @property-read integer $rent_hours
  */
-class BuyRequest extends FormRequest
+class RentRequest extends FormRequest
 {
     protected function prepareForValidation()
     {
@@ -35,6 +37,11 @@ class BuyRequest extends FormRequest
                 'required',
                 'integer',
                 Rule::exists(Product::class, 'id')
+            ],
+            'rent_hours' => [
+                'required',
+                'integer',
+                Rule::in(array_column(RentRangeEnum::cases(), 'value'))
             ]
         ];
     }
@@ -45,7 +52,7 @@ class BuyRequest extends FormRequest
      */
     public function withValidator(Validator $validator): void
     {
-        $validator->after(function ($validator) {
+        $validator->after(function (Validator $validator) {
             /** @var User $user */
             $user = auth()->user();
             /** @var Product $product */
@@ -58,11 +65,20 @@ class BuyRequest extends FormRequest
                 ->where('product_id', $product->id)
                 ->where('end_rent', '>=', Carbon::now()->toDateTimeString())
                 ->count();
+            $isInRent = Rent::query()
+                ->where('product_id', $product->id)
+                ->where('user_id', $user->id)
+                ->where('end_rent', '>=', Carbon::now()->toDateTimeString())
+                ->first();
             if ($checkPurchase) {
                 $validator->errors()
                     ->add('message', 'You already own this product, your buy code is - ' . $checkPurchase->id);
             }
-            if ($product->buy_price > $user->account_balance) {
+            if ($isInRent) {
+                $validator->errors()
+                    ->add('message', 'Your current rent is not over yet - ' . $isInRent->id);
+            }
+            if ($product->rent_hour_price * $this->rent_hours > $user->account_balance) {
                 $validator->errors()
                     ->add('message', 'There are insufficient funds in the account.');
             }
